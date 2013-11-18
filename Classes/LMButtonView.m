@@ -10,33 +10,38 @@
 
 #import "../SNES9XBridge/Snes9xMain.h"
 
+@interface LMButtonView ()
+@property (strong, nonatomic) NSDictionary* states;
+@end
+
 @implementation LMButtonView(Privates)
 
-- (void)handleTouches:(NSSet*)touches
+- (void) handleTouches: (NSSet*) touches
 {
-  UITouch* touch = [touches anyObject];
-  if(touch.phase == UITouchPhaseCancelled || touch.phase == UITouchPhaseEnded || touch == nil)
-    SISetControllerReleaseButton(_button);
-  else
-    SISetControllerPushButton(_button);
+    UITouch* touch = [touches anyObject];
+    if(touch.phase == UITouchPhaseCancelled || touch.phase == UITouchPhaseEnded || touch == nil){
+        SISetControllerReleaseButton(_button);
+        [self setImage: [self.states objectForKey: @"normal"]];
+    } else {
+        SISetControllerPushButton(_button);
+        [self setImage: [self.states objectForKey: @"pressed"]];
+    }
 }
-
 @end
 
 @implementation LMButtonView
-
+@synthesize states = _states;
 @synthesize button = _button;
 @synthesize label = _label;
-
 @end
 
 #pragma mark -
 
 @implementation LMButtonView(UIView)
 
-- (id)initWithFrame:(CGRect)frame
+- (id) initWithFrame: (CGRect) frame
 {
-  self = [super initWithFrame:frame];
+  self = [super initWithFrame: frame];
   if(self)
   {
     self.userInteractionEnabled = YES;
@@ -48,7 +53,8 @@
     _label.backgroundColor = nil;
     _label.opaque = NO;
     _label.textAlignment = UITextAlignmentCenter;
-    [self addSubview:_label];
+      _states = nil;
+    [self addSubview: _label];
   }
   return self;
 }

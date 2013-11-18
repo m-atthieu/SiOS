@@ -21,15 +21,18 @@
 
 #pragma mark UI Creation Shortcuts
 
-- (LMButtonView*)LM_smallButtonWithButton:(int)buttonMap
+- (LMButtonView*) LM_smallButtonWithButton: (int) buttonMap
 {
   int width = 44;
   int height = 24;
   
-  LMButtonView* button = [[LMButtonView alloc] initWithFrame:(CGRect){0,0, width,height}];
-  button.image = [UIImage imageNamed:@"ButtonWide.png"];
-  button.label.textColor = [UIColor colorWithWhite:1 alpha:0.75];
-  button.label.shadowColor = [UIColor colorWithWhite:0 alpha:0.35];
+  LMButtonView* button = [[LMButtonView alloc] initWithFrame: (CGRect){0,0, width,height}];
+  button.image = [UIImage imageNamed: @"ButtonWide.png"];
+    [button setStates: @{
+        @"normal": [UIImage imageNamed: @"ButtonWide.png"],
+        @"pressed": [UIImage imageNamed: @"ButtonWide-pressed.png"]}];
+  button.label.textColor = [UIColor colorWithWhite: 1 alpha: 0.75];
+  button.label.shadowColor = [UIColor colorWithWhite: 0 alpha: 0.35];
   button.label.shadowOffset = CGSizeMake(0, -1);
   button.label.font = [UIFont systemFontOfSize:10];
   button.button = buttonMap;
@@ -40,20 +43,24 @@
   return [button autorelease];
 }
 
-- (LMButtonView*)LM_buttonWithButton:(int)buttonMap
+- (LMButtonView*) LM_buttonWithButton: (int) buttonMap
 {
   int side = 50;
   side = 60;
-  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
     side = 70;
-  LMButtonView* button = [[LMButtonView alloc] initWithFrame:(CGRect){0,0, side,side}];
+  }
+  LMButtonView* button = [[LMButtonView alloc] initWithFrame: (CGRect){0,0, side,side}];
   button.button = buttonMap;
-  button.label.font = [UIFont boldSystemFontOfSize:27.0];
+  button.label.font = [UIFont boldSystemFontOfSize: 27.0];
   if(buttonMap == SIOS_A || buttonMap == SIOS_B)
   {
-    button.image = [UIImage imageNamed:@"ButtonDarkPurple.png"];
-    button.label.textColor = [UIColor colorWithRed:63/255.0 green:32/255.0 blue:127/255.0 alpha:0.75];
-    button.label.shadowColor = [UIColor colorWithWhite:1 alpha:0.25];
+    button.image = [UIImage imageNamed: @"ButtonDarkPurple.png"];
+      [button setStates: @{
+                           @"normal": [UIImage imageNamed: @"ButtonDarkPurple.png"],
+                           @"pressed": [UIImage imageNamed: @"ButtonDarkPurple-pressed.png"]}];
+    button.label.textColor = [UIColor colorWithRed: 63 / 255.0 green: 32 / 255.0 blue: 127 / 255.0 alpha: 0.75];
+    button.label.shadowColor = [UIColor colorWithWhite: 1 alpha: 0.25];
     button.label.shadowOffset = CGSizeMake(0, 1);
     if(buttonMap == SIOS_A)
       button.label.text = @"A";
@@ -63,6 +70,9 @@
   else if(buttonMap == SIOS_X || buttonMap == SIOS_Y)
   {
     button.image = [UIImage imageNamed:@"ButtonLightPurple.png"];
+      [button setStates: @{
+                           @"normal": [UIImage imageNamed: @"ButtonLightPurple.png"],
+                           @"pressed": [UIImage imageNamed: @"ButtonLightPurple-pressed.png"]}];
     button.label.textColor = [UIColor colorWithRed:122/255.0 green:101/255.0 blue:208/255.0 alpha:0.75];
     button.label.shadowColor = [UIColor colorWithWhite:1 alpha:0.25];
     button.label.shadowOffset = CGSizeMake(0, 1);
@@ -74,6 +84,9 @@
   else if(buttonMap == SIOS_L || buttonMap == SIOS_R)
   {
     button.image = [UIImage imageNamed:@"ButtonGrey.png"];
+      [button setStates: @{
+                           @"normal": [UIImage imageNamed: @"ButtonGrey.png"],
+                           @"pressed": [UIImage imageNamed: @"ButtonGrey-pressed.png"]}];
     button.label.textColor = [UIColor colorWithRed:136/255.0 green:140/255.0 blue:148/255.0 alpha:0.75];
     button.label.shadowColor = [UIColor colorWithWhite:1 alpha:0.25];
     button.label.shadowOffset = CGSizeMake(0, 1);
@@ -180,28 +193,28 @@
     [self addSubview:_optionsButton];
     
     // ABXY buttons
-    _aButton = [[self LM_buttonWithButton:SIOS_A] retain];
-    [self addSubview:_aButton];
+    _aButton = [[self LM_buttonWithButton: SIOS_A] retain];
+    [self addSubview: _aButton];
     
-    _bButton = [[self LM_buttonWithButton:SIOS_B] retain];
-    [self addSubview:_bButton];
+    _bButton = [[self LM_buttonWithButton: SIOS_B] retain];
+    [self addSubview: _bButton];
     
-    _xButton = [[self LM_buttonWithButton:SIOS_X] retain];
-    [self addSubview:_xButton];
+    _xButton = [[self LM_buttonWithButton: SIOS_X] retain];
+    [self addSubview: _xButton];
     
-    _yButton = [[self LM_buttonWithButton:SIOS_Y] retain];
-    [self addSubview:_yButton];
+    _yButton = [[self LM_buttonWithButton: SIOS_Y] retain];
+    [self addSubview: _yButton];
     
     // L/R buttons
-    _lButton = [[self LM_buttonWithButton:SIOS_L] retain];
-    [self addSubview:_lButton];
+    _lButton = [[self LM_buttonWithButton: SIOS_L] retain];
+    [self addSubview: _lButton];
     
-    _rButton = [[self LM_buttonWithButton:SIOS_R] retain];
-    [self addSubview:_rButton];
+    _rButton = [[self LM_buttonWithButton: SIOS_R] retain];
+    [self addSubview: _rButton];
     
     // d-pad
     _dPadView = [[LMDPadView alloc] initWithFrame:(CGRect){0,0,10,10}];
-    [self addSubview:_dPadView];
+    [self addSubview: _dPadView];
     
     // iCade support
     _iCadeControlView = [[LMBTControllerView alloc] initWithFrame:CGRectZero];
