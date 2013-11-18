@@ -427,8 +427,19 @@ typedef enum _LMEmulatorAlert
 {  
   [super viewWillAppear:animated];
   
-  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-  [self.navigationController setNavigationBarHidden:YES animated:YES];
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]){
+        [self prefersStatusBarHidden];
+        [self performSelector: @selector(setNeedsStatusBarAppearanceUpdate)];
+    } else {
+        // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
+}
+
+- (BOOL) prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
